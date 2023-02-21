@@ -2,7 +2,7 @@
 view: account {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `clickalia_dwh.account`
+  sql_table_name: `infra-esp-datawarehouse.clickalia_dwh.account`
     ;;
   drill_fields: [account_id]
   # This primary key is the unique key for this table in the underlying database.
