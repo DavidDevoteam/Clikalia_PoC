@@ -2,7 +2,7 @@
 view: purchase_strategy {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `clickalia_dwh.purchaseStrategy`
+  sql_table_name: `clikalia_dwh.purchaseStrategy`
     ;;
   drill_fields: [_id]
   # This primary key is the unique key for this table in the underlying database.

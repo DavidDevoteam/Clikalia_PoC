@@ -2,7 +2,7 @@
 view: registration {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `clickalia_dwh.registration`
+  sql_table_name: `clikalia_dwh.registration`
     ;;
   drill_fields: [id_purchase]
   # This primary key is the unique key for this table in the underlying database.

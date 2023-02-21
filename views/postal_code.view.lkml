@@ -2,7 +2,7 @@
 view: postal_code {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `clickalia_dwh.postal_code`
+  sql_table_name: `clikalia_dwh.postal_code`
     ;;
   drill_fields: [id]
   # This primary key is the unique key for this table in the underlying database.
