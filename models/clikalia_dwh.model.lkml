@@ -68,3 +68,9 @@ explore: quote {}
 explore: transfer_tax {}
 
 explore: state {}
+
+explore: rentamediabruta {}
+
+explore: gross {}
+
+explore: ocupacion {}
