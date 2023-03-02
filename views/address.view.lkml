@@ -11,6 +11,11 @@ view: address {
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Block" in Explore.
 
+  dimension: id {
+    type: string
+    sql: ${TABLE}.id ;;
+  }
+
   dimension: block {
     type: string
     sql: ${TABLE}.block ;;
@@ -29,6 +34,12 @@ view: address {
   dimension: gps_longitude {
     type: string
     sql: ${TABLE}.gps_longitude ;;
+  }
+
+  dimension: gps {
+    type: location
+    sql_latitude:${gps_latitude} ;;
+    sql_longitude:${gps_longitude} ;;
   }
 
   dimension: id_city {

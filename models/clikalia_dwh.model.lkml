@@ -27,7 +27,48 @@ persist_with: clikalia_dwh_default_datagroup
 
 explore: account {}
 
+explore: account_main {}
+
 explore: assets {}
+
+explore: assets_main {
+  join: portfolio_strategy {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${assets_main.internal_id} = ${portfolio_strategy.assetInternalId} ;;
+    fields: [commercialization_strategy]
+  }
+  join: purchase_certification {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${assets_main.internal_id} = ${purchase_certification.asset_internal_id} ;;
+    fields: [amount]
+  }
+  join: address {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${assets_main.address} = ${address.id} ;;
+    fields: [address.id_province]
+  }
+  join: province {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${address.id_province} = ${province.id} ;;
+    fields: [province.province]
+  }
+}
+
+explore: rent {}
+
+explore: rent_main {
+  join: purchase_certification {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${rent_main.asset_internal_id} = cast(${purchase_certification.asset_internal_id} as int64) ;;
+    fields: [amount]
+  }
+}
+
 
 explore: city {}
 
@@ -69,8 +110,4 @@ explore: transfer_tax {}
 
 explore: state {}
 
-explore: rentamediabruta {}
-
-explore: gross {}
-
-explore: ocupacion {}
+explore: sql_runner_query {}

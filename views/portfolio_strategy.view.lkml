@@ -8,19 +8,19 @@ view: portfolio_strategy {
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
-  dimension: id {
+  dimension: assetInternalId {
     primary_key: yes
     type: string
-    sql: ${TABLE}.id ;;
+    sql: ${TABLE}.assetInternalId ;;
   }
 
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Asset Internal ID" in Explore.
 
-  dimension: asset_internal_id {
+  dimension: id {
     type: string
-    sql: ${TABLE}.assetInternalId ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: closing_price {

@@ -33,6 +33,11 @@ view: purchase_certification {
     sql: ${TABLE}.notary_amount ;;
   }
 
+  dimension: asset_internal_id {
+    type: number
+    sql: ${TABLE}.asset_internal_id ;;
+  }
+
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 

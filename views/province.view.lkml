@@ -23,13 +23,13 @@ view: province {
     sql: ${TABLE}.code ;;
   }
 
-  dimension: name {
+  dimension: province {
     type: string
     sql: ${TABLE}.name ;;
   }
 
   measure: count {
     type: count
-    drill_fields: [id, name]
+    drill_fields: [id, province]
   }
 }
