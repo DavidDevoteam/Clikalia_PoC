@@ -48,7 +48,7 @@ explore: assets_main {
     type: left_outer
     relationship: one_to_one
     sql_on: ${assets_main.address} = ${address.id} ;;
-    fields: [address.id_province]
+    fields: [address.id_province, address.gps]
   }
   join: province {
     type: left_outer
@@ -64,7 +64,7 @@ explore: rent_main {
   join: purchase_certification {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${rent_main.asset_internal_id} = cast(${purchase_certification.asset_internal_id} as int64) ;;
+    sql_on: ${rent_main.asset_internal_id} = ${purchase_certification.asset_internal_id} ;;
     fields: [amount]
   }
 }

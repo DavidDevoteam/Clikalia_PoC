@@ -3,6 +3,7 @@ view: rent_main {
       ;;
 
     dimension: _id {
+      primary_key: yes
       type: string
       sql: ${TABLE}._id ;;
     }
@@ -125,19 +126,16 @@ view: rent_main {
       sql: ${TABLE}.tenantType ;;
     }
 
-    dimension: amount {
-      type: number
-      sql: ${TABLE}.amount ;;
-    }
-
     measure: count {
       type: count
       drill_fields: []
     }
 
     measure: Gross_Margin {
-      type: number
-      sql: avg((${contractual_rent}*12)/${purchase_certification.amount}) ;;
+      type: average
+      sql: safe_divide((${contractual_rent} * 12.0) , ${purchase_certification.amount})  ;;
+      value_format: "0.00\%"
+
     }
 
 

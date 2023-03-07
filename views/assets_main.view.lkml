@@ -75,8 +75,125 @@ view: assets_main {
 
   dimension: gps {
     type: location
-    sql_latitude:${address.gps_latitude} ;;
-    sql_longitude:${address.gps_longitude} ;;
+    sql_latitude:${latitude} ;;
+    sql_longitude:${longitude} ;;
+  }
+  dimension: latitude{
+    type:  string
+    sql: CASE
+              WHEN ${province.province} = "A Coruña" THEN "43.37012643"
+              WHEN ${province.province} = "Albacete" THEN "38.99588053"
+              WHEN ${province.province} = "Alicante/Alacant" THEN "38.34548705"
+              WHEN ${province.province} = "Almería" THEN "36.83892362"
+              WHEN ${province.province} = "Araba/Álava" THEN "42.85058789"
+              WHEN ${province.province} = "Asturias" THEN "43.36232165"
+              WHEN ${province.province} = "Ávila" THEN "40.65586958"
+              WHEN ${province.province} = "Badajoz" THEN "38.87874339"
+              WHEN ${province.province} = "Barcelona" THEN "41.38424664"
+              WHEN ${province.province} = "Bizkaia" THEN "43.25721957"
+              WHEN ${province.province} = "Burgos" THEN "42.34113004"
+              WHEN ${province.province} = "Cáceres" THEN "39.47316762"
+              WHEN ${province.province} = "Cádiz" THEN "36.52171152"
+              WHEN ${province.province} = "Cantabria" THEN "43.46297885"
+              WHEN ${province.province} = "Castellón/Castelló" THEN "39.98640809"
+              WHEN ${province.province} = "Ceuta" THEN "35.88810209"
+              WHEN ${province.province} = "Ciudad Real" THEN "38.98651781"
+              WHEN ${province.province} = "Córdoba" THEN "37.87954225"
+              WHEN ${province.province} = "Cuenca" THEN "40.07653762"
+              WHEN ${province.province} = "Gipuzkoa" THEN "43.31717158"
+              WHEN ${province.province} = "Girona" THEN "41.98186075"
+              WHEN ${province.province} = "Granada" THEN "37.17641932"
+              WHEN ${province.province} = "Guadalajara" THEN "40.63435548"
+              WHEN ${province.province} = "Huelva" THEN "37.26004113"
+              WHEN ${province.province} = "Huesca" THEN "42.14062739"
+              WHEN ${province.province} = "Islas Baleares" THEN "39.57114699"
+              WHEN ${province.province} = "Jaén" THEN "37.7651913"
+              WHEN ${province.province} = "La Rioja" THEN "42.46644945"
+              WHEN ${province.province} = "Las Palmas" THEN "28.099378545"
+              WHEN ${province.province} = "León" THEN "42.59912097"
+              WHEN ${province.province} = "Lleida" THEN "41.61527355"
+              WHEN ${province.province} = "Lugo" THEN "43.0091282"
+              WHEN ${province.province} = "Madrid" THEN "40.40841191"
+              WHEN ${province.province} = "Málaga" THEN "36.72034267"
+              WHEN ${province.province} = "Melilla" THEN "35.294731"
+              WHEN ${province.province} = "Murcia" THEN "37.98436361"
+              WHEN ${province.province} = "Navarra" THEN "42.814102"
+              WHEN ${province.province} = "Ourense" THEN "42.33654919"
+              WHEN ${province.province} = "Palencia" THEN "42.0078373"
+              WHEN ${province.province} = "Pontevedra" THEN "42.43381442"
+              WHEN ${province.province} = "Salamanca" THEN "40.96736822"
+              WHEN ${province.province} = "Santa Cruz de Tenerife" THEN "28.462854082"
+              WHEN ${province.province} = "Segovia" THEN "40.9498703"
+              WHEN ${province.province} = "Sevilla" THEN "37.38620512"
+              WHEN ${province.province} = "Soria" THEN "41.76327912"
+              WHEN ${province.province} = "Tarragona" THEN "41.11910287"
+              WHEN ${province.province} = "Teruel" THEN "40.34412951"
+              WHEN ${province.province} = "Toledo" THEN "39.85715187"
+              WHEN ${province.province} = "Valencia/València" THEN "39.47534441"
+              WHEN ${province.province} = "Valladolid" THEN "41.65232777"
+              WHEN ${province.province} = "Zamora" THEN "41.49913956"
+              WHEN ${province.province} = "Zaragoza" THEN "41.65645655"
+              END
+    ;;
+  }
+
+  dimension: longitude {
+    type: string
+    sql: CASE
+            WHEN ${province.province} = "A Coruña" THEN "-8.39114853"
+            WHEN ${province.province} = "Albacete" THEN "-1.85574745"
+            WHEN ${province.province} = "Alicante/Alacant" THEN "-0.4831832"
+            WHEN ${province.province} = "Almería" THEN "-2.46413188"
+            WHEN ${province.province} = "Araba/Álava" THEN "-2.67275685"
+            WHEN ${province.province} = "Asturias" THEN "-5.84372206"
+            WHEN ${province.province} = "Ávila" THEN "-4.69771277"
+            WHEN ${province.province} = "Badajoz" THEN "-6.97099704"
+            WHEN ${province.province} = "Barcelona" THEN "2.17634927"
+            WHEN ${province.province} = "Bizkaia" THEN "-2.92390606"
+            WHEN ${province.province} = "Burgos" THEN "-3.70419805"
+            WHEN ${province.province} = "Cáceres" THEN "-6.37121092"
+            WHEN ${province.province} = "Cádiz" THEN "-6.28414575"
+            WHEN ${province.province} = "Cantabria" THEN "-3.80474784"
+            WHEN ${province.province} = "Castellón/Castelló" THEN "-0.03688142"
+            WHEN ${province.province} = "Ceuta" THEN "-5.30675127"
+            WHEN ${province.province} = "Ciudad Real" THEN "-3.93131981"
+            WHEN ${province.province} = "Córdoba" THEN "-4.78032455"
+            WHEN ${province.province} = "Cuenca" THEN "-2.13152306"
+            WHEN ${province.province} = "Gipuzkoa" THEN "-1.98191785"
+            WHEN ${province.province} = "Girona" THEN "2.82411899"
+            WHEN ${province.province} = "Granada" THEN "-3.60001883"
+            WHEN ${province.province} = "Guadalajara" THEN "-3.16210273"
+            WHEN ${province.province} = "Huelva" THEN "-6.95040588"
+            WHEN ${province.province} = "Huesca" THEN "-0.40842276"
+            WHEN ${province.province} = "Islas Baleares" THEN "2.65181698"
+            WHEN ${province.province} = "Jaén" THEN "-3.7903594"
+            WHEN ${province.province} = "La Rioja" THEN "-2.44565538"
+            WHEN ${province.province} = "Las Palmas" THEN "-15.413368411"
+            WHEN ${province.province} = "León" THEN "-5.56707631"
+            WHEN ${province.province} = "Lleida" THEN "0.62061934"
+            WHEN ${province.province} = "Lugo" THEN "-7.55817392"
+            WHEN ${province.province} = "Madrid" THEN "-3.68760088"
+            WHEN ${province.province} = "Málaga" THEN "-4.41997511"
+            WHEN ${province.province} = "Melilla" THEN "-2.942281"
+            WHEN ${province.province} = "Murcia" THEN "-1.1285408"
+            WHEN ${province.province} = "Navarra" THEN "-1.6451528"
+            WHEN ${province.province} = "Ourense" THEN "-7.86368375"
+            WHEN ${province.province} = "Palencia" THEN "-4.53460106"
+            WHEN ${province.province} = "Pontevedra" THEN "-8.64799018"
+            WHEN ${province.province} = "Salamanca" THEN "-5.66538084"
+            WHEN ${province.province} = "Santa Cruz de Tenerife" THEN "-16.247206286"
+            WHEN ${province.province} = "Segovia" THEN "-4.12524116"
+            WHEN ${province.province} = "Sevilla" THEN "-5.99251368"
+            WHEN ${province.province} = "Soria" THEN "-2.46624798"
+            WHEN ${province.province} = "Tarragona" THEN "1.2584219"
+            WHEN ${province.province} = "Teruel" THEN "-1.10927177"
+            WHEN ${province.province} = "Toledo" THEN "-4.02431421"
+            WHEN ${province.province} = "Valencia/València" THEN "-0.37565717"
+            WHEN ${province.province} = "Valladolid" THEN "-4.72334924"
+            WHEN ${province.province} = "Zamora" THEN "-5.75494831"
+            WHEN ${province.province} = "Zaragoza" THEN "-0.87928652"
+            END
+    ;;
   }
 
   measure: count {
@@ -118,5 +235,21 @@ view: assets_main {
   measure: Occupation {
     type:  number
     sql: ${status_alquilado}/${strategy_v_o_a} ;;
+  }
+
+  measure: aux_vacancy {
+    type:  count
+   drill_fields: [balance_status]
+    filters: [balance_status: "IN_EVALUATION"]
+  }
+
+  measure: Vacancy {
+    type:  number
+    sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
+    # filters: [commercialization_strategy : "RENTAL", "SALE_AND_RENTAL"]
+  }
+
+  measure: Pending_rentals {
+
   }
 }

@@ -42,6 +42,11 @@ view: address {
     sql_longitude:${gps_longitude} ;;
   }
 
+  dimension: pais {
+    type: string
+    sql: "ESP" ;;
+  }
+
   dimension: id_city {
     type: string
     sql: ${TABLE}.id_city ;;
