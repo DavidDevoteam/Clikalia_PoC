@@ -1,10 +1,12 @@
 view: rent {
   sql_table_name: `infra-esp-datawarehouse.clikalia_dwh.rent`
     ;;
+  drill_fields: [id]
 
-  dimension: _id {
+  dimension: id {
+    primary_key: yes
     type: string
-    sql: ${TABLE}._id ;;
+    sql: ${TABLE}.id ;;
   }
 
   dimension: additional_guarantee {
@@ -12,23 +14,9 @@ view: rent {
     sql: ${TABLE}.additionalGuarantee ;;
   }
 
-  dimension_group: approval {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.approvalDate ;;
-  }
-
   dimension: asset_internal_id {
-    type: number
-    sql: ${TABLE}.asset_internal_id ;;
+    type: string
+    sql: ${TABLE}.assetInternalId ;;
   }
 
   dimension: commercial {
@@ -44,6 +32,11 @@ view: rent {
   dimension: commercial_validation {
     type: string
     sql: ${TABLE}.commercialValidation ;;
+  }
+
+  dimension: contract_internal_id {
+    type: number
+    sql: ${TABLE}.contractInternalId ;;
   }
 
   dimension: contractual_furniture_cost {
@@ -115,9 +108,9 @@ view: rent {
     sql: ${TABLE}.residentialUse ;;
   }
 
-  dimension: tenant_company {
+  dimension: tenant_contact {
     type: string
-    sql: ${TABLE}.tenantCompany ;;
+    sql: ${TABLE}.tenantContact ;;
   }
 
   dimension: tenant_type {
@@ -127,6 +120,6 @@ view: rent {
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [id]
   }
 }

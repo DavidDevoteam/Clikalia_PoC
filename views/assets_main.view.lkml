@@ -73,6 +73,14 @@ view: assets_main {
     sql: ${TABLE}.type ;;
   }
 
+  dimension: company {
+    type: string
+    sql: CASE WHEN ${account_clikalia.name} = "KALIA PROPERTIES S.A" THEN "KALIA PROPERTIES S.A"
+              WHEN ${account_clikalia.name} LIKE ("DBF%") THEN "DBFs"
+              ELSE "Other companies"
+              END   ;;
+  }
+
   dimension: gps {
     type: location
     sql_latitude:${latitude} ;;
@@ -214,8 +222,8 @@ view: assets_main {
   }
 
   measure: euros_m2_sin_zzcc_cartera {
-    type:  sum
-    sql:   ${purchase_certification.amount}/CAST(${m2_cadastral} AS INT64) ;;
+    type:  average
+    sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
     filters: [balance_status: "RENTED"]
   }
 
@@ -234,7 +242,7 @@ view: assets_main {
 
   measure: Occupation {
     type:  number
-    sql: ${status_alquilado}/${strategy_v_o_a} ;;
+    sql: COUNTIF(balance_status="RENTED")/COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
   }
 
   measure: aux_vacancy {
@@ -246,10 +254,17 @@ view: assets_main {
   measure: Vacancy {
     type:  number
     sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
-    # filters: [commercialization_strategy : "RENTAL", "SALE_AND_RENTAL"]
   }
 
   measure: Pending_rentals {
-
+    type:  number
+    sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
   }
+
+  measure: Gross_Margin {
+    type: average
+    sql: safe_divide((${rent.contractual_rent} * 12.0) , ${purchase_certification.amount})  ;;
+    value_format: "0.00\%"
+  }
+
 }
