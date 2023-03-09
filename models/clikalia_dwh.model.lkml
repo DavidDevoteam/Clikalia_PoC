@@ -42,7 +42,7 @@ explore: assets_main {
     type: left_outer
     relationship: one_to_one
     sql_on: ${assets_main.internal_id} = ${purchase_certification.asset_internal_id} ;;
-    fields: [amount]
+    fields: [amount,notary_amount,amount_intermediate]
   }
   join: address {
     type: left_outer
@@ -83,15 +83,16 @@ explore: assets_main {
   join: transfer_tax {
     type: left_outer
     relationship: one_to_many
-    sql_on: ${transfer_tax.asset_internal_id} = ${assets_main.internal_id} ;;
-    fields: [transfer_tax.amount]
+    sql_on: cast(${transfer_tax.asset_internal_id} as string) = ${assets_main.internal_id} ;;
+    fields: [transfer_tax.tax_amount]
   }
   join: registration {
     type: left_outer
     relationship: one_to_many
     sql_on: ${registration.asset_internal_id} = ${assets_main.internal_id} ;;
-    fields: [registration.amount]
+    fields: [registration.registry_amount]
   }
+
 }
 
 explore: rent {}

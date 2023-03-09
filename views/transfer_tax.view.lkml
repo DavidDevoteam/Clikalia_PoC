@@ -2,7 +2,7 @@ view: transfer_tax {
   sql_table_name: `infra-esp-datawarehouse.clikalia_dwh.transfer_tax`
     ;;
 
-  dimension: amount {
+  dimension: tax_amount {
     type: number
     sql: ${TABLE}.amount ;;
   }

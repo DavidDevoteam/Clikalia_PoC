@@ -256,15 +256,31 @@ view: assets_main {
     sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
   }
 
-  measure: Pending_rentals {
-    type:  number
-    sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
-  }
-
   measure: Gross_Margin {
-    type: average
-    sql: safe_divide((${rent.contractual_rent} * 12.0) , ${purchase_certification.amount})  ;;
+    type: number
+    sql: sum(${rent.contractual_rent} * 12.0) / sum(${purchase_certification.amount})  ;;
     value_format: "0.00\%"
   }
+
+  measure: Profit_Margin {
+    type: number
+    sql: sum(${rent.contractual_rent} * 12.0) / sum(${purchase_certification.amount}+ ${purchase_certification.amount_intermediate}
+          +${purchase_certification.notary_amount} +${transfer_tax.tax_amount} + ${registration.registry_amount} )  ;;
+    value_format: "0.00\%"
+  }
+
+  measure: Pending_Rentals{
+    type: number
+    sql: COUNTIF(balance_status="IN_EVALUATION") ;;
+  }
+  measure: All_time_hight {
+    type:  max
+    sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
+    filters: [balance_status: "RENTED"]
+  }
+
+
+
+
 
 }

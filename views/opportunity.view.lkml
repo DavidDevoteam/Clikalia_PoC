@@ -2230,4 +2230,14 @@ view: opportunity {
     type: count
     drill_fields: [stepname, name, cli_name]
   }
+
+  measure: Completed_visits{
+    type: number
+    sql: COUNTIF(cli_estadodelavisita= 1 ) ;;
+  }
+
+  measure: scheduled_visits{
+    type: number
+    sql: safe_divide(countif(cli_estadodelavisita= 1) , count(${_cli_organizadorvisitas_value}));;
+  }
 }

@@ -2,7 +2,7 @@ view: registration {
   sql_table_name: `infra-esp-datawarehouse.clikalia_dwh.registration`
     ;;
 
-  dimension: amount {
+  dimension: registry_amount {
     type: number
     sql: ${TABLE}.amount ;;
   }
