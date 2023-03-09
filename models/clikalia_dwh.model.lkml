@@ -52,13 +52,13 @@ explore: assets_main {
     type: left_outer
     relationship: one_to_one
     sql_on: ${assets_main.address} = ${address.id} ;;
-    fields: [address.id_province, address.gps]
+    #fields: [address.id_province, address.gps]
   }
   join: province {
     type: left_outer
     relationship: many_to_one
     sql_on: ${address.id_province} = ${province.id} ;;
-    fields: [province.province]
+    #fields: [province.province]
   }
   join: purchase_earnest_money {
     type: left_outer
@@ -121,7 +121,13 @@ explore: portfolio_strategy {}
 
 explore: postal_code {}
 
-explore: province {}
+explore: province {
+  join: address {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${province.province}} = ${address.id_province} ;;
+  }
+}
 
 explore: profit_loss_structures {}
 

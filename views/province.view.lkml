@@ -26,6 +26,7 @@ view: province {
   dimension: province {
     type: string
     sql: ${TABLE}.name ;;
+    drill_fields: [address.name]
   }
 
   measure: count {

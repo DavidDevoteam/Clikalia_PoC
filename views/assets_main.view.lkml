@@ -2,9 +2,8 @@
 view: assets_main {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
-  sql_table_name: `clikalia_dwh.assets`
-    ;;
-  drill_fields: [id]
+  sql_table_name: `clikalia_dwh.assets`;;
+  drill_fields: [assets_heriarchy*, assets_characteristics*]
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
@@ -205,8 +204,8 @@ view: assets_main {
   }
 
   measure: count {
-    type: count
-    drill_fields: [id, name]
+    type: count_distinct
+    sql: ${internal_id} ;;
   }
 
   measure: Average_Ticket  {
@@ -281,6 +280,13 @@ view: assets_main {
     type:  max
     sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
     filters: [balance_status: "RENTED"]
+  }
+
+  set: assets_heriarchy {
+    fields: [internal_id, cadastral_ref, balance_status]
+  }
+  set: assets_characteristics {
+    fields: [internal_id, name, type,m2_cadastral,status]
   }
 
 
