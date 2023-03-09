@@ -228,25 +228,29 @@ view: assets_main {
   }
 
   measure: Leased_assets {
-    type:  number
-    sql: COUNTIF(balance_status = "RENTED") ;;
+    type:  count_distinct
+    sql: internal_id ;;
+    filters: [balance_status: "RENTED"]
   }
   measure: status_alquilado {
-    type: number
-    sql:  COUNTIF(balance_status="RENTED");;
+    type:  count_distinct
+    sql: internal_id ;;
+    filters: [balance_status: "RENTED"]
   }
-  measure: strategy_v_o_a {
-    type: number
-    sql:  COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
+
+  measure: sale_or_rental {
+    type:  count_distinct
+    sql: internal_id ;;
+    filters: [portfolio_strategy.commercialization_strategy: "RENTAL", portfolio_strategy.commercialization_strategy: "SALE_AND_RENTAL"]
   }
 
   measure: Occupation {
     type:  number
-    sql: COUNTIF(balance_status="RENTED")/COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
+    sql: ${status_alquilado}/${sale_or_rental} ;;
   }
 
   measure: aux_vacancy {
-    type:  count
+    type:  count_distinct
    drill_fields: [balance_status]
     filters: [balance_status: "IN_EVALUATION"]
   }
