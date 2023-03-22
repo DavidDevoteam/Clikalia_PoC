@@ -58,6 +58,10 @@ view: portal {
     ]
     sql: ${TABLE}.unpublication_date ;;
   }
+  dimension:  asset_internal_id {
+    type: string
+    sql: ${TABLE}.asset_internal_id ;;
+  }
 
   measure: count {
     type: count

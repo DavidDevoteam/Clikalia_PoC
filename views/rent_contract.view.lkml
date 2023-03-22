@@ -133,4 +133,8 @@ view: rent_contract {
     type: count
     drill_fields: [id]
   }
+  measure: Contrats_signed {
+  type: count_distinct
+  sql:  case when current_date()>=${date_signature_real_date} then ${id} else null END ;;
+  }
 }

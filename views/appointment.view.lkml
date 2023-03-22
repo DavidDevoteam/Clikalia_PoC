@@ -156,6 +156,34 @@ view: appointment {
       year
     ]
     sql: ${TABLE}.actualend ;;
+
+  }
+  dimension_group: createdon {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.createdon ;;
+  }
+
+  dimension_group: scheduledstart {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.scheduledstart ;;
   }
 
   dimension_group: actualstart {
@@ -196,9 +224,31 @@ view: appointment {
     type: number
     sql: ${TABLE}.cli_asuntovisita ;;
   }
+  dimension: cli_reagendarvisita  {
+    type: number
+    sql: ${TABLE}.cli_reagendarvisita ;;
+  }
+  dimension: statecode  {
+    type: number
+    sql: ${TABLE}.statecode ;;
+  }
 
   measure: count {
     type: count
     drill_fields: []
+  }
+  measure: reagendarvisita {
+    type: count_distinct
+    sql: ${activityid} ;;
+   filters: [cli_reagendarvisita :"2" ]#falta código
+  }
+  measure: cancelados {
+    type: count_distinct
+    sql:  ${activityid};;
+  filters: [ statecode:"2" ]
+  }
+  measure: Rescheduled_visits_vs_no_completed {
+    type: number
+    sql: safe_divide(${reagendarvisita},${cancelados});;
   }
 }

@@ -228,18 +228,18 @@ view: assets_main {
 
   measure: Leased_assets {
     type:  count_distinct
-    sql: internal_id ;;
+    sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
   }
   measure: status_alquilado {
     type:  count_distinct
-    sql: internal_id ;;
+    sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
   }
 
   measure: sale_or_rental {
     type:  count_distinct
-    sql: internal_id ;;
+    sql: ${internal_id} ;;
     filters: [portfolio_strategy.commercialization_strategy: "RENTAL", portfolio_strategy.commercialization_strategy: "SALE_AND_RENTAL"]
   }
 
@@ -255,8 +255,10 @@ view: assets_main {
   }
 
   measure: Vacancy {
-    type:  number
-    sql: COUNTIF(balance_status="IN_EVALUATION") / COUNTIF(${portfolio_strategy.commercialization_strategy} IN ( "RENTAL", "SALE_AND_RENTAL")) ;;
+    type:  count_distinct
+    sql: ${internal_id};;
+    filters: [ balance_status: "IN_EVALUATION", portfolio_strategy.commercialization_strategy : "RENTAL",
+      portfolio_strategy.commercialization_strategy : "SALE_AND_RENTAL" ]
   }
 
   measure: Gross_Margin {
@@ -273,14 +275,23 @@ view: assets_main {
   }
 
   measure: Pending_Rentals{
-    type: number
-    sql: COUNTIF(balance_status="IN_EVALUATION") ;;
+    type: count_distinct
+    sql:  ${internal_id} ;;
+    filters: [ balance_status: "RENTED", portfolio_strategy.commercialization_strategy : "RENTAL",
+               portfolio_strategy.commercialization_strategy : "SALE_AND_RENTAL" ]
   }
   measure: All_time_hight {
     type:  max
     sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
     filters: [balance_status: "RENTED"]
   }
+  measure: Rental_leads {
+    type: count_distinct
+    sql: ${internal_id} ;;
+    # filters: [opportunity..]
+  }
+
+
 
   set: assets_heriarchy {
     fields: [internal_id, cadastral_ref, balance_status]

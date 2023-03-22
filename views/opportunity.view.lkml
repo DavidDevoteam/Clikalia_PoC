@@ -2232,12 +2232,95 @@ view: opportunity {
   }
 
   measure: Completed_visits{
-    type: number
-    sql: COUNTIF(cli_estadodelavisita= 1 ) ;;
+    type: count_distinct
+    sql: ${opportunityid}  ;;
+    filters: [cli_estadodelavisita: "1"]
+  }
+  measure: scheduled_visits {
+    type: count_distinct
+    sql: ${opportunityid} ;;
+    filters: [cli_estadodelavisita : "3"]
+  }
+  measure: organizador_visitas {
+    type:  count_distinct
+    sql: ${_cli_organizadorvisitas_value} ;;
   }
 
-  measure: scheduled_visits{
+  measure: scheduled_visits_by_operator{
     type: number
-    sql: safe_divide(countif(cli_estadodelavisita= 1) , count(${_cli_organizadorvisitas_value}));;
+    sql: safe_divide( ${scheduled_visits} ,  ${organizador_visitas});;
+  }
+  measure: Leads_per_rental {
+    type:  average
+    sql: ${opportunityid} ;;
+    filters: [cli_verifyvalidated: "321130001"] # Falta filtrar balancestatus
+  }
+  measure: qualified_leads_funnel {
+    type: count_distinct
+    sql: ${opportunityid} ;;
+    filters: [cli_verifyvalidated: "321130001"]
+  }
+  measure: total_leads {
+    type: count_distinct
+    sql: ${opportunityid} ;;
+    filters: [ cli_tipointeres: "182000001"]
+  }
+  measure: Qualified_leads{
+    type: number
+    sql: safe_divide(${qualified_leads_funnel} , ${total_leads});;
+  }
+  measure: numeradorML1  {
+    type:count_distinct
+    sql: ${opportunityid} ;;
+    filters: [statecode: "1"]
+  }
+  measure: numeradorML2  {
+    type:count_distinct
+    sql: ${opportunityid} ;;
+    filters: [statuscode: "2"]
+  }
+  measure: numeradorML3  {
+    type:count_distinct
+    sql: ${opportunityid} ;;
+    filters: [statuscode: "182000012"]
+  }
+  measure: Managed_leads{
+    type: number
+    sql: safe_divide((${numeradorML1} + ${numeradorML2} +${numeradorML3}) ,${total_leads});;
+  }
+  measure: Managed_leads_funnel{
+    type: number
+    sql: (${numeradorML1} + ${numeradorML2} +${numeradorML3});;
+  }
+  measure: Reserves {
+    type: count_distinct
+    sql:  case when current_date()>=${cli_fechaaprobacion_date} then ${opportunityid}  END ;;
+  }
+  measure: Contrats_signed {
+    type: count_distinct
+    sql:  case when current_date()>=${cli_ct_datefirma_date} then ${opportunityid}  END ;;
+  }
+  dimension: channel {
+    type: string
+    sql: case when cli_verifyvalidated= 321130001 and  cli_origenlead =182000018 then "B2B – Proactivo"
+              when cli_verifyvalidated= 321130001 and cli_origenlead =182000017 then "B2B – Web"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =321130002 then "B2B – Intermediarios"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =321130000 then "C2B – Web"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =182000002 then "MKT – Landing"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =182000004 then "MKT – Social Ads"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =182000010 then "Otro"
+              when cli_verifyvalidated= 321130001 and  cli_origenlead =182000016 then "Web"end ;;
+  }
+  measure: Qualified_leads_by_channel {
+    type: number
+    sql: count(${channel});;
+  }
+  measure: Completed_visit_vs_qualified_leads {
+    type: number
+    sql: ${Completed_visits}/${qualified_leads_funnel} ;;
+  }
+  measure: days_to_schedule_visit {
+    type: average
+    sql: date_diff(${appointment.createdon_date},${createdon_date}, day) ;;
   }
 }

@@ -46,7 +46,7 @@ explore: assets_main {
     type: left_outer
     relationship: one_to_one
     sql_on: ${assets_main.internal_id} = ${purchase_certification.asset_internal_id} ;;
-    fields: [amount,notary_amount,amount_intermediate]
+    fields: [amount,notary_amount,amount_intermediate,real_date]
   }
   join: address {
     type: left_outer
@@ -96,7 +96,12 @@ explore: assets_main {
     sql_on: ${registration.asset_internal_id} = ${assets_main.internal_id} ;;
     fields: [registration.registry_amount]
   }
-
+  join: portal {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${assets_main.internal_id} = ${portal.asset_internal_id} ;;
+    fields: [portal.publication_date_date]
+  }
 }
 
 explore: rent {}
@@ -113,7 +118,20 @@ explore: appointment {}
 
 explore: home_characteristics {}
 
-explore: opportunity {}
+explore: opportunity {
+  join: appointment {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${appointment._regardingobjectid_value}  = ${opportunity.opportunityid} ;;
+    fields: [appointment.createdon_date, appointment.scheduledstart_date]
+  }
+  join: cli_asset {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${cli_asset.cli_assetid}  = ${opportunity._cli_asset_value} ;;
+    fields: [cli_asset.cli_balancestatus]
+    }
+}
 
 explore: portal {}
 
@@ -152,3 +170,5 @@ explore: state {}
 explore: sql_runner_query {}
 
 explore: idealista {}
+
+explore: cli_asset {}
