@@ -122,4 +122,9 @@ view: rent {
     type: count
     drill_fields: [id]
   }
+  dimension: Reserve_formalization_time {
+    type:  number
+    sql: case when ${rent_contract.date_signature_real_date} is not null or  ${rent.rent_reservation_date} is not null then
+      date_diff(${rent_contract.date_signature_real_date},${rent.rent_reservation_date},day) end ;;
+  }
 }

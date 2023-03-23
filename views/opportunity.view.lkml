@@ -2250,10 +2250,14 @@ view: opportunity {
     type: number
     sql: safe_divide( ${scheduled_visits} ,  ${organizador_visitas});;
   }
-  measure: Leads_per_rental {
-    type:  average
+  measure: rentals {
+    type: count_distinct
     sql: ${opportunityid} ;;
-    filters: [cli_verifyvalidated: "321130001"] # Falta filtrar balancestatus
+    filters: [cli_asset.cli_balancestatus: "182000000",cli_verifyvalidated: "321130001"]
+  }
+  measure: Leads_per_rental {
+    type:  number
+    sql: safe_divide(${total_leads},${rentals}) ;;
   }
   measure: qualified_leads_funnel {
     type: count_distinct
@@ -2323,4 +2327,18 @@ view: opportunity {
     type: average
     sql: date_diff(${appointment.createdon_date},${createdon_date}, day) ;;
   }
+    dimension: visit_reserve_time {
+    type: number
+    sql: date_diff(${cli_fechaaprobacion_date}, ${appointment.scheduledstart_date}, day) ;;
+  }
+  dimension: publication_visit_time {
+    type: number
+    sql: date_diff(${appointment.scheduledstart_date}, ${portal.publication_date_date}, day) ;;
+  }
+  measure: offers {
+    type: count_distinct
+    sql: ${opportunityid}  ;;
+    filters: [cli_asset.cli_balancestatus: "182000000"]
+  }
+
 }

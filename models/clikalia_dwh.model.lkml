@@ -4,6 +4,8 @@ connection: "clikalia_infra-esp-datawarehouse"
 # include all the views
 include: "/views/**/*.view"
 
+include: "/dashboard/**/*.dashboard.lookml"
+
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
 
@@ -46,7 +48,7 @@ explore: assets_main {
     type: left_outer
     relationship: one_to_one
     sql_on: ${assets_main.internal_id} = ${purchase_certification.asset_internal_id} ;;
-    fields: [amount,notary_amount,amount_intermediate,real_date]
+    fields: [amount,notary_amount,amount_intermediate,purchase_certification.real_date]
   }
   join: address {
     type: left_outer
@@ -74,13 +76,13 @@ explore: assets_main {
   }
   join: rent {
     type: left_outer
-    relationship: one_to_many
+    relationship: one_to_one
     sql_on: ${rent.asset_internal_id} = ${assets_main.internal_id} ;;
-    fields: [rent.contractual_rent]
+    fields: [rent.contractual_rent, rent.rent_reservation_date]
   }
   join: rent_contract {
     type: left_outer
-    relationship: one_to_many
+    relationship: one_to_one
     sql_on: ${rent_contract.contract_internal_id} = ${rent.contract_internal_id} ;;
     fields: [rent_contract.date_signature_real_date,rent_contract.date_signature_real_month,rent_contract.date_signature_real_quarter]
   }
@@ -99,12 +101,19 @@ explore: assets_main {
   join: portal {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${assets_main.internal_id} = ${portal.asset_internal_id} ;;
+    sql_on: ${assets_main.internal_id} = cast(${portal.asset_internal_id} as string) ;;
     fields: [portal.publication_date_date]
   }
 }
 
-explore: rent {}
+explore: rent {
+  join: rent_contract {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${rent_contract.contract_internal_id} = ${rent.contract_internal_id} ;;
+    fields: [rent_contract.date_signature_real_date,rent_contract.date_signature_real_month,rent_contract.date_signature_real_quarter]
+    }
+}
 
 explore: rent_contract {}
 
@@ -131,6 +140,12 @@ explore: opportunity {
     sql_on: ${cli_asset.cli_assetid}  = ${opportunity._cli_asset_value} ;;
     fields: [cli_asset.cli_balancestatus]
     }
+  join: portal {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${cli_asset.cli_id}  = cast(${portal.asset_internal_id} as string) ;;
+    fields: [portal.publication_date_date]
+  }
 }
 
 explore: portal {}
@@ -143,7 +158,7 @@ explore: province {
   join: address {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${province.province}} = ${address.id_province} ;;
+    sql_on: ${province.province}} = ${address.id_province};;
   }
 }
 

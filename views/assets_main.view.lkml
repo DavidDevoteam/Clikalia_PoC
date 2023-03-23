@@ -290,6 +290,31 @@ view: assets_main {
     sql: ${internal_id} ;;
     # filters: [opportunity..]
   }
+  dimension: Purchase_publication_time {
+    type:  number
+    sql: date_diff(${portal.publication_date_date},${purchase_certification.real_date},day) ;;
+  }
+  dimension: Reserve_formalization_time {
+    type:  number
+    sql: case when ${rent_contract.date_signature_real_date} is not null or  ${rent.rent_reservation_date} is not null then
+    date_diff(${rent_contract.date_signature_real_date},${rent.rent_reservation_date},day) end ;;
+  }
+  dimension: rental_time {
+    type: number
+    sql: date_diff( current_date(),${rent_contract.date_signature_real_date},year) ;;
+  }
+  measure: failure_num {
+    type: count_distinct
+    sql: case when current_date() >= ${rent_contract.date_signature_real_date} then ${internal_id} end;;
+  }
+  measure: failure_den {
+    type: count_distinct
+    sql: case when current_date() >= ${rent.rent_reservation_date} then ${internal_id} end ;;
+  }
+  measure: failure {
+    type: number
+    sql: ${failure_num}/${failure_den} ;;
+  }
 
 
 
