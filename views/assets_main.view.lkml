@@ -212,40 +212,47 @@ view: assets_main {
     type: average
     sql: ${purchase_certification.amount}  ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: m2_construido_sin_zzcc_cartera {
     type: sum
     sql: cast(${m2_cadastral} as INT64) ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: euros_m2_sin_zzcc_cartera {
     type:  average
     sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: Leased_assets {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
   measure: status_alquilado {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: sale_or_rental {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [portfolio_strategy.commercialization_strategy: "RENTAL", portfolio_strategy.commercialization_strategy: "SALE_AND_RENTAL"]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: Occupation {
     type:  number
     sql: ${status_alquilado}/${sale_or_rental} ;;
+    drill_fields: [location_heriarchy*]
   }
 
   measure: aux_vacancy {
