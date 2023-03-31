@@ -250,7 +250,7 @@ view: assets_main {
 
   measure: aux_vacancy {
     type:  count_distinct
-   drill_fields: [balance_status]
+   drill_fields: [balance_status,location_heriarchy*]
     filters: [balance_status: "IN_EVALUATION"]
   }
 
@@ -259,12 +259,14 @@ view: assets_main {
     sql: ${internal_id};;
     filters: [ balance_status: "IN_EVALUATION", portfolio_strategy.commercialization_strategy : "RENTAL",
       portfolio_strategy.commercialization_strategy : "SALE_AND_RENTAL" ]
+    drill_fields: [location_heriarchy*]
   }
 
   measure: Gross_Margin {
     type: number
     sql: sum(${rent.contractual_rent} * 12.0) / sum(${purchase_certification.amount})  ;;
     value_format: "0.00\%"
+    drill_fields: [location_heriarchy*]
   }
 
   measure: Profit_Margin {
@@ -272,6 +274,7 @@ view: assets_main {
     sql: sum(${rent.contractual_rent} * 12.0) / sum(${purchase_certification.amount}+ ${purchase_certification.amount_intermediate}
           +${purchase_certification.notary_amount} +${transfer_tax.tax_amount} + ${registration.registry_amount} )  ;;
     value_format: "0.00\%"
+    drill_fields: [location_heriarchy*]
   }
 
   measure: Pending_Rentals{
@@ -279,16 +282,20 @@ view: assets_main {
     sql:  ${internal_id} ;;
     filters: [ balance_status: "RENTED", portfolio_strategy.commercialization_strategy : "RENTAL",
                portfolio_strategy.commercialization_strategy : "SALE_AND_RENTAL" ]
+
+    drill_fields: [location_heriarchy*]
   }
   measure: All_time_hight {
     type:  max
     sql:   (${purchase_certification.amount})/(CAST(${m2_cadastral} AS INT64)) ;;
     filters: [balance_status: "RENTED"]
+    drill_fields: [location_heriarchy*]
   }
   measure: Rental_leads {
     type: count_distinct
     sql: ${internal_id} ;;
     # filters: [opportunity..]
+    drill_fields: [location_heriarchy*]
   }
   dimension: Purchase_publication_time {
     type:  number
@@ -306,20 +313,27 @@ view: assets_main {
   measure: failure_num {
     type: count_distinct
     sql: case when current_date() >= ${rent_contract.date_signature_real_date} then ${internal_id} end;;
+    drill_fields: [location_heriarchy*]
   }
   measure: failure_den {
     type: count_distinct
     sql: case when current_date() >= ${rent.rent_reservation_date} then ${internal_id} end ;;
+    drill_fields: [location_heriarchy*]
   }
   measure: failure {
     type: number
     sql: ${failure_num}/${failure_den} ;;
+    drill_fields: [location_heriarchy*]
   }
 
 
 
   set: assets_heriarchy {
     fields: [internal_id, cadastral_ref, balance_status]
+  }
+
+  set: location_heriarchy {
+    fields: [countries.name,province.province, city.name]
   }
   set: assets_characteristics {
     fields: [internal_id, name, type,m2_cadastral,status]
