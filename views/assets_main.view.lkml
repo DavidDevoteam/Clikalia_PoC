@@ -233,7 +233,7 @@ view: assets_main {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
-    drill_fields: [location_heriarchy*, Leased_assets]
+    drill_fields: [location_heriarchy*]
   }
   measure: status_alquilado {
     type:  count_distinct
@@ -340,7 +340,7 @@ view: assets_main {
   }
 
   set: location_heriarchy {
-    fields: [countries.name,province.province, city.name]
+    fields: [countries.name,province.province, city.name, Leased_assets]
   }
   set: assets_characteristics {
     fields: [internal_id, name, type,m2_cadastral,status]
