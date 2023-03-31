@@ -219,7 +219,7 @@ view: assets_main {
     type: sum
     sql: cast(${m2_cadastral} as INT64) ;;
     filters: [balance_status: "RENTED"]
-    drill_fields: [location_heriarchy*]
+    drill_fields: [location_heriarchy*, m2_construido_sin_zzcc_cartera]
   }
 
   measure: euros_m2_sin_zzcc_cartera {
@@ -233,7 +233,7 @@ view: assets_main {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
-    drill_fields: [location_heriarchy*]
+    drill_fields: [location_heriarchy*, Leased_assets]
   }
   measure: status_alquilado {
     type:  count_distinct
@@ -302,7 +302,7 @@ view: assets_main {
     type: count_distinct
     sql: ${internal_id} ;;
     # filters: [opportunity..]
-    drill_fields: [location_heriarchy*]
+    drill_fields: [location_heriarchy*, Rental_leads]
   }
   dimension: Purchase_publication_time {
     type:  number
