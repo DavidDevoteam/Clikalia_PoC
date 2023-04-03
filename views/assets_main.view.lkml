@@ -234,6 +234,11 @@ view: assets_main {
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
     drill_fields: [location_heriarchy*]
+    link: {
+      label: "Leased Assets por Ciudad"
+      url: "{{link}}&pivots=city.name"
+    }
+
   }
   measure: status_alquilado {
     type:  count_distinct
