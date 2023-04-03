@@ -31,6 +31,7 @@ view: countries {
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
+    drill_fields: [province.province,city.name]
   }
 
   measure: count {
