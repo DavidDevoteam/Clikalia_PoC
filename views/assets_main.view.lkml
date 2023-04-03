@@ -238,6 +238,11 @@ view: assets_main {
       label: "Leased Assets por Ciudad"
       url: "{{link}}&pivots=city.name"
     }
+    link: {
+      label: "Leased Assets por Balance Status"
+      url: "{{link}}&pivots=assets_main.balance_status"
+    }
+
 
   }
   measure: status_alquilado {

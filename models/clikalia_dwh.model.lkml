@@ -34,10 +34,10 @@ explore: account_main {}
 explore: assets {}
 
 explore: assets_main {
-  access_filter: {
-    field: province.province
-    user_attribute: city
-  }
+  #access_filter: {
+  #  field: province.province
+  #  user_attribute: city
+  #}
   join: portfolio_strategy {
     type: left_outer
     relationship: one_to_one
