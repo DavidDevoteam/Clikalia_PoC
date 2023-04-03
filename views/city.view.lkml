@@ -26,6 +26,7 @@ view: city {
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
+    drill_fields: [countries.name,province.province]
   }
 
   measure: count {
