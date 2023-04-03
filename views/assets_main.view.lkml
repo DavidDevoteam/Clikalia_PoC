@@ -233,7 +233,7 @@ view: assets_main {
     type:  count_distinct
     sql: ${internal_id} ;;
     filters: [balance_status: "RENTED"]
-    #drill_fields: [location_heriarchy*]
+    drill_fields: [location_heriarchy*]
     link: {
       label: "Leased Assets por Ciudad"
       url: "{{link}}&pivots=city.name"
